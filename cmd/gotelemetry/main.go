@@ -50,7 +50,7 @@ func main() {
 	// ===========================================
 
 	// Procesar señales del sistema.
-	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	sigChan := make(chan os.Signal, 1)
@@ -88,7 +88,7 @@ func main() {
 
 	// Bloquea main hasta recibir la señal SIGINT/SIGTERM
 	sig := <-sigChan
-	fmt.Printf("\nSignal %v recibed. Exiting...", sig)
+	fmt.Printf("Signal %v recibed. Exiting...\n", sig)
 
 	cancel()
 
